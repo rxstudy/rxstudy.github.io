@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export interface Character {
+export interface ICharacter {
     name: string,
     nationId: string | null,
     groupId: string | null,
@@ -13,16 +13,16 @@ export interface Character {
     subProfessionId: string
 }
 
-export interface CharacterMap {
-    [key: string]: Character
+export interface ICharacterMap {
+    [key: string]: ICharacter
 }
 
-export interface CharDBState {
-    map: CharacterMap
+export interface ICharDBState {
+    map: ICharacterMap
 }
 
-export interface LoadDataAction {
-    payload: CharacterMap
+export interface ILoadDataAction {
+    payload: ICharacterMap
 }
 
 export const charDBSlice = createSlice({
@@ -31,7 +31,7 @@ export const charDBSlice = createSlice({
         map: require("../data/char_table.json")
     },
     reducers: {
-        loadData: (state: CharDBState, action: LoadDataAction) => {
+        loadData: (state: ICharDBState, action: ILoadDataAction) => {
             state.map = action.payload;
         },
     }

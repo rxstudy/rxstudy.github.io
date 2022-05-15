@@ -1,15 +1,14 @@
 
 import { configureStore } from '@reduxjs/toolkit'
-import { OpCountState } from './OpCountSlice';
-import opCountReducer from "./OpCountSlice";
-import charDBReducer, { CharDBState } from './CharDB';
+import charDBReducer, { ICharDBState } from './CharDBSlice';
+import opDeckReducer, { IOpDeckState } from './OpDeck';
 
-export interface AppState {
-    op_count: OpCountState,
-    char_db: CharDBState
+export interface IAppState {
+    char_db: ICharDBState,
+    op_deck: IOpDeckState
 }
 
 
 export const store = configureStore({
-    reducer: { op_count: opCountReducer, char_db: charDBReducer }
+    reducer: { char_db: charDBReducer, op_deck: opDeckReducer }
 })

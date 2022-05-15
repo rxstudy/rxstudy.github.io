@@ -1,31 +1,24 @@
-import React from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux'
-import { AppState } from '../reducers/State';
-import { loadData } from '../reducers/CharDB';
+import React from 'react'
+import { OnComponentDidMount } from '../../common/react_helpers';
+import { useSelector, useDispatch } from 'react-redux';
+import { IAppState } from '../reducers/State';
+import { initDeckState } from '../reducers/OpDeck';
+import Const from '../Const';
 
-type Props = {
+function DataLoader() {
+    const charMap = useSelector((state: IAppState) => state.char_db.map);
+    const dispatch = useDispatch()
 
-}
-type State = {
-
-}
-
-class DataLoader extends React.Component<Props, State> {
-    async fetchCharTableJSON() {
-        // const resp = await axios.get("");
-        // if (resp.status == 200) {
-        //     // const dispatch = useDispatch();
-        //     // dispatch(loadData({ payload: resp.data }));
-        // }
-    }
-    componentDidMount() {
-        this.fetchCharTableJSON();
-
-    }
-    render() {
-        return null;
-    }
+    OnComponentDidMount(() => {
+        dispatch(initDeckState({
+            allowed_op_count: Const.OP_SLOT_COUNT_DEFAULT,
+            available_op_ids: Object.keys(charMap),
+            excluded_op_ids: [],
+            in_use_op_ids: []
+        }));
+        console.log("Log[INFO]: Data initialized.")
+    })
+    return null;
 }
 
 export default DataLoader

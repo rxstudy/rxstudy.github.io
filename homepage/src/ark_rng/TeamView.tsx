@@ -1,6 +1,9 @@
 import React from "react";
 import { useSelector } from 'react-redux'
-import { AppState } from './reducers/State';
+import { ICharacter } from "./reducers/CharDBSlice";
+import { IAppState } from './reducers/State';
+import { OpCell, PlaceHolderCell } from "./widgets/OpCell";
+import "./TeamView.css"
 
 type Props = {
 
@@ -10,19 +13,22 @@ type State = {
 }
 
 
+
 function OpCells() {
-    const count = useSelector((state: AppState) => state.op_count.value);
-    const charMap = useSelector((state: AppState) => state.char_db.map);
+    const allowedOpCount = useSelector((state: IAppState) => state.op_deck.allowed_op_count);
+    const charMap = useSelector((state: IAppState) => state.char_db.map);
+    const charInUse = useSelector((state: IAppState) => state.op_deck.in_use_op_ids);
+
     const teamCell: React.ReactNode[] = [];
-    // Remove # of ids from the list for each sample.
-    const charIds = Object.keys(charMap);
-    for (let i = 1; i <= count; i++) {
-        let pos = Math.floor(Math.random() * charIds.length);
-        let charId = charIds.splice(pos, 1)[0];
-        teamCell.push(<div key={`char-{idx}`}>{charMap[charId].name}</div>);
+    charInUse.forEach(charId => {
+        teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]} />);
+    })
+    console.log(`Log[INFO]: In use op count: ${charInUse.length}, Allowed op count: ${allowedOpCount}`)
+    for (let i = charInUse.length; i < allowedOpCount; i++) {
+        teamCell.push(<PlaceHolderCell key={`unused-${i}`} />);
     }
 
-    return <div>{teamCell}</div>
+    return <div className="TeamView-cells">{teamCell}</div>
 }
 
 class TeamView extends React.Component<Props, State> {
@@ -30,7 +36,7 @@ class TeamView extends React.Component<Props, State> {
         return <OpCells />
     }
     render() {
-        return <div>{this.renderOpCells()}</div>
+        return <div className="TeamView-top">{this.renderOpCells()}</div>
     }
 }
 

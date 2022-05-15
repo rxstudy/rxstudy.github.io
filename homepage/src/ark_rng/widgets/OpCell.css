@@ -1,0 +1,16 @@
+.OpCell-avatar {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.OpCell-top {
+    flex-basis: 5;
+}
+
+.OpCell-name {
+    text-align: right;
+    color: #fffffffa;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.9);
+}
