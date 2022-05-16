@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { ProfessionEnum } from './GlobalTypes';
 
 export interface ICharacter {
     name: string,
@@ -9,7 +10,7 @@ export interface ICharacter {
     rarity: number,
     appellation: string,
     position: string,
-    profession: string,
+    profession: ProfessionEnum,
     subProfessionId: string,
     sex: string,
     name_jp: string,

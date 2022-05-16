@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import Const from "../Const"
+import { OP_SLOT_COUNT_MAX, OP_SLOT_COUNT_MIN, OP_SLOT_COUNT_DEFAULT } from "../Const"
 import _ from "lodash"
 
 export interface IOpDeckState {
@@ -31,7 +31,7 @@ export const opDeckSlice = createSlice({
         available_op_ids: [],
         excluded_op_ids: [],
         in_use_op_ids: [],
-        allowed_op_count: Const.OP_SLOT_COUNT_DEFAULT
+        allowed_op_count: OP_SLOT_COUNT_DEFAULT
     },
     reducers: {
         initDeckState: (state: IOpDeckState, action: IDeckStateAction) => {
@@ -54,10 +54,10 @@ export const opDeckSlice = createSlice({
             state.available_op_ids = _.union(state.available_op_ids, action.payload)
         },
         incrementOpCount: (state: IOpDeckState) => {
-            state.allowed_op_count = Math.min(state.allowed_op_count + 1, Const.OP_SLOT_COUNT_MAX);
+            state.allowed_op_count = Math.min(state.allowed_op_count + 1, OP_SLOT_COUNT_MAX);
         },
         decrementOpCount: (state: IOpDeckState) => {
-            state.allowed_op_count = Math.max(state.allowed_op_count - 1, Const.OP_SLOT_COUNT_MIN);
+            state.allowed_op_count = Math.max(state.allowed_op_count - 1, OP_SLOT_COUNT_MIN);
             if (state.allowed_op_count < state.in_use_op_ids.length) {
                 state.in_use_op_ids = _.take(state.in_use_op_ids, state.allowed_op_count)
             }

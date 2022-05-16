@@ -3,11 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Dispatch } from 'redux';
 import { incrementOpCount, addOpsToTeam, clearOpsFromTeam } from '../reducers/OpDeck';
 import { IAppState } from '../reducers/State';
-import { toggleFemaleFilter, toggleMaleFilter, Filter } from '../reducers/UiPanelSlice';
+import { toggleFemaleFilter, toggleMaleFilter, Filter, toggleProfessionFilter } from '../reducers/UiPanelSlice';
 import { ICharacterMap, ICharacter } from '../reducers/CharDBSlice';
-import { FileWatcherEventKind } from 'typescript';
+import { createImportSpecifier, FileWatcherEventKind } from 'typescript';
 import _ from 'lodash';
 import "./OpGenPanel.css";
+import CheckBox from '../ui/CheckBox';
+import { ProfessionEnum } from '../reducers/GlobalTypes';
+import { ALL_PROFESSIONS, PROFESSION_TO_ICON_NAME } from '../Const';
 
 export interface IOpGenPanelProps {
 }
@@ -23,6 +26,14 @@ function filterOps(availableOpIds: string[], filter: Filter, charMap: ICharacter
         return !rejectGender.has(charMap[cid].sex);
     })
 
+    const rejectProfession: Set<ProfessionEnum> =
+        new Set(_.filter(ALL_PROFESSIONS, prof => !filter.profession[prof]))
+
+    filteredIds = _.filter(filteredIds, (cid: string) => {
+        console.log(charMap[cid].profession)
+        return !rejectProfession.has(charMap[cid].profession);
+    })
+
     return filteredIds;
 }
 
@@ -30,11 +41,31 @@ function filterOps(availableOpIds: string[], filter: Filter, charMap: ICharacter
 function generateOps(charIds: string[], opsSampleCount: number): string[] {
     console.log("Log[INFO]: Generate samples " + opsSampleCount);
     const samples: Set<string> = new Set([])
-    for (let i = 0; i < opsSampleCount; i++) {
+    for (let i = 0; i < Math.min(charIds.length, opsSampleCount); i++) {
         let pos = Math.floor(Math.random() * charIds.length);
         samples.add(charIds.splice(pos, 1)[0]);
     }
     return Array.from(samples)
+}
+
+type ProfessionFilterCheckBoxProps = {
+    checked: { [k in ProfessionEnum]: boolean }
+}
+
+function ProfessionFilterCheckBox(props: ProfessionFilterCheckBoxProps) {
+    const dispatch = useDispatch();
+    const nodes = ALL_PROFESSIONS.map(prof => {
+        const iconName = PROFESSION_TO_ICON_NAME[prof]
+        const checked = props.checked[prof]
+        return <div
+            key={`checkbox-prof-${prof}`}
+            onClick={() => { dispatch(toggleProfessionFilter(prof)) }}
+            className={`OpGenPanel-profession-icon OpGenPanel-profession-${iconName} ${checked ? "checked" : ""}`}></div>
+    });
+
+    return <div className="OpGenPanel-profession-top">
+        {nodes}
+    </div>
 }
 
 export default function OpGenPanel(props: IOpGenPanelProps) {
@@ -48,13 +79,10 @@ export default function OpGenPanel(props: IOpGenPanelProps) {
     return (
         <div className="op-gen-panel-top">
             <div>
-                <label htmlFor="filter-female" onClick={() => dispatch(toggleFemaleFilter())}>
-                    <input readOnly type="checkbox" id="filter-female" name="filter-female" checked={filter.female}></input>女
-                </label>
-                <label htmlFor="filter-male" onClick={() => dispatch(toggleMaleFilter())}>
-                    <input readOnly type="checkbox" id="filter-male" name="fitler-male" checked={filter.male}></input>男
-                </label>
+                <CheckBox onClick={() => dispatch(toggleFemaleFilter())} checked={filter.female}>女干员</CheckBox>
+                <CheckBox onClick={() => dispatch(toggleMaleFilter())} checked={filter.male}>男干员</CheckBox>
             </div>
+            <ProfessionFilterCheckBox checked={filter.profession} />
             <button onClick={() => {
                 const filteredId = filterOps(availableOpIds, filter, charMap);
                 dispatch(addOpsToTeam(generateOps(filteredId, opsSampleCount)))

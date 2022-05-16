@@ -1,5 +1,6 @@
 import urllib.request as request
 import json
+import re
 
 CHAR_TABLE_URL = "https://raw.githubusercontent.com/Aceship/AN-EN-Tags/master/json/gamedata/zh_CN/gamedata/excel/character_table.json"
 CHAR_PARSED_ATTR = "https://raw.githubusercontent.com/Aceship/AN-EN-Tags/HEAD/json/tl-akhr.json"
@@ -19,7 +20,7 @@ with request.urlopen(CHAR_TABLE_URL) as req:
     json_resp = json.loads(resp)
     for k in json_resp:
         entry = json_resp[k]
-        is_char = entry["subProfessionId"] not in ["notchar1", "notchar2"]
+        is_char = entry["subProfessionId"] not in ["notchar1", "notchar2"] and re.match(r"^char_[0-9]+_.*", k)
         playable_char = entry["isNotObtainable"] == False
         if is_char and playable_char:
             filtered_json[k] =  filter(json_resp[k])

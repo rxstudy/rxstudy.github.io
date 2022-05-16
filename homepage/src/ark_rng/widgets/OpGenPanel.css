@@ -1,0 +1,52 @@
+.OpGenPanel-top .checkbox {
+    margin: 2px 4px;
+}
+
+.OpGenPanel-profession-top {
+    display: flex;
+}
+
+.OpGenPanel-profession-icon {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    background-size: cover;
+    margin: 1px;
+}
+
+.OpGenPanel-profession-icon.checked {
+    border: 1px solid rgb(28, 133, 231);
+    margin: 0;
+}
+
+.OpGenPanel-profession-caster {
+    background-image: url("../assets/ui/icon_profession_caster_large.png");
+}
+
+.OpGenPanel-profession-guard {
+    background-image: url("../assets/ui/icon_profession_guard_large.png");
+}
+
+.OpGenPanel-profession-medic {
+    background-image: url("../assets/ui/icon_profession_medic_large.png");
+}
+
+.OpGenPanel-profession-sniper {
+    background-image: url("../assets/ui/icon_profession_sniper_large.png");
+}
+
+.OpGenPanel-profession-specialist {
+    background-image: url("../assets/ui/icon_profession_specialist_large.png");
+}
+
+.OpGenPanel-profession-supporter {
+    background-image: url("../assets/ui/icon_profession_supporter_large.png");
+}
+
+.OpGenPanel-profession-defender {
+    background-image: url("../assets/ui/icon_profession_defender_large.png");
+}
+
+.OpGenPanel-profession-vanguard {
+    background-image: url("../assets/ui/icon_profession_vanguard_large.png");
+}

@@ -4,6 +4,7 @@ import { ICharacter } from "./reducers/CharDBSlice";
 import { IAppState } from './reducers/State';
 import { OpCell, PlaceHolderCell } from "./widgets/OpCell";
 import "./TeamView.css"
+import _ from "lodash";
 
 type Props = {
 
@@ -13,14 +14,15 @@ type State = {
 }
 
 
-
 function OpCells() {
     const allowedOpCount = useSelector((state: IAppState) => state.op_deck.allowed_op_count);
     const charMap = useSelector((state: IAppState) => state.char_db.map);
     const charInUse = useSelector((state: IAppState) => state.op_deck.in_use_op_ids);
 
     const teamCell: React.ReactNode[] = [];
-    charInUse.forEach(charId => {
+    _.sortBy(charInUse, (cid) => {
+        return charMap[cid].profession
+    }).forEach(charId => {
         teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]} />);
     })
     console.log(`Log[INFO]: In use op count: ${charInUse.length}, Allowed op count: ${allowedOpCount}`)

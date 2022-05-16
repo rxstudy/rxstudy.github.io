@@ -1,5 +1,7 @@
+import { PROFESSION_TO_ICON_NAME } from "../Const"
 import { ICharacter } from "../reducers/CharDBSlice"
 import "./OpCell.css"
+import { ProfessionEnum } from '../reducers/GlobalTypes';
 
 type OpCellProps = {
     opId: string,
@@ -7,23 +9,11 @@ type OpCellProps = {
 }
 
 type ProfessionIconProps = {
-    profession: string,
-}
-
-const PROFESSION_TO_CLASS_MAP: any = {
-    "warrior": "guard",
-    "pioneer": "vanguard",
-    "sniper": "sniper",
-    "tank": "defender",
-    "medic": "medic",
-    "caster": "caster",
-    "support": "supporter",
-    "special": "specialist"
+    profession: ProfessionEnum,
 }
 
 export function ProfessionIcon(props: ProfessionIconProps) {
-    const lcaseProf = props.profession.toLowerCase();
-    return <div className={`OpCell-profession  Opcell-profession-${PROFESSION_TO_CLASS_MAP[lcaseProf]}`} />
+    return <div className={`OpCell-profession  Opcell-profession-${PROFESSION_TO_ICON_NAME[props.profession]}`} />
 }
 
 type StarsIconProps = {
