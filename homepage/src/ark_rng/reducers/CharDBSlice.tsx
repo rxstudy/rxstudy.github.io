@@ -10,7 +10,10 @@ export interface ICharacter {
     appellation: string,
     position: string,
     profession: string,
-    subProfessionId: string
+    subProfessionId: string,
+    sex: string,
+    name_jp: string,
+    name_kr: string,
 }
 
 export interface ICharacterMap {
