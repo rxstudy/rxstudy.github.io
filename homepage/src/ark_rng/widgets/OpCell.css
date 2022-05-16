@@ -43,8 +43,8 @@
 .OpCell-top {
     position: relative;
     width: 15%;
-    max-width: 200px;
-    min-width: 120px;
+    max-width: 140px;
+    min-width: 100px;
     z-index: 5;
 }
 

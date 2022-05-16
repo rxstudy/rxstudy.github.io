@@ -4,6 +4,7 @@ import TeamView from "./TeamView";
 import ToolBox from './ToolBox';
 import { store } from "./reducers/State";
 import DataLoader from './widgets/DataLoader';
+import "./App.css";
 
 function ArkRngApp() {
     return <Provider store={store}>

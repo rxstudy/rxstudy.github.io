@@ -7,6 +7,7 @@ import { toggleFemaleFilter, toggleMaleFilter, Filter } from '../reducers/UiPane
 import { ICharacterMap, ICharacter } from '../reducers/CharDBSlice';
 import { FileWatcherEventKind } from 'typescript';
 import _ from 'lodash';
+import "./OpGenPanel.css";
 
 export interface IOpGenPanelProps {
 }
@@ -45,7 +46,7 @@ export default function OpGenPanel(props: IOpGenPanelProps) {
     const dispatch = useDispatch()
     const opsSampleCount = allowedOpCount - inUseOpIds.length;
     return (
-        <div>
+        <div className="op-gen-panel-top">
             <div>
                 <label htmlFor="filter-female" onClick={() => dispatch(toggleFemaleFilter())}>
                     <input readOnly type="checkbox" id="filter-female" name="filter-female" checked={filter.female}></input>女

@@ -58,5 +58,8 @@ export function OpCell(props: OpCellProps) {
 }
 
 export function PlaceHolderCell() {
-    return <div>+</div>
+    return <div className="OpCell-top">
+        <div className={`OpCell-grad OpCell-grad-1`}></div>
+        <div className="OpCell-avatar"></div>
+    </div>
 }
