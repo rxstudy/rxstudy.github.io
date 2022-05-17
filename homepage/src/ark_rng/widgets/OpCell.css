@@ -134,7 +134,7 @@
     background: linear-gradient(15deg, rgba(0, 0, 0, 1) 0%, rgba(54, 53, 26, 1) 20%, rgba(205, 116, 32, 1) 45%, rgba(205, 180, 12, 1) 60%, rgba(255, 255, 255, 0) 100%);
 }
 
-@media (orientation: portrait) and (max-width: 480px) {
+@media (orientation: portrait) and (max-width: 640px) {
     .OpCell-profession {
         height: 20px;
         width: 20px;
