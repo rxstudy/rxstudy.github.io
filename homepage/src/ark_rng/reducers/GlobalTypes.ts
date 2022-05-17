@@ -9,4 +9,3 @@ export enum ProfessionEnum {
     Support = "SUPPORT",
     Special = "SPECIAL",
 }
-

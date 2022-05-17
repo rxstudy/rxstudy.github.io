@@ -4,7 +4,8 @@ import { ProfessionEnum } from './GlobalTypes';
 export interface Filter {
     male: boolean,
     female: boolean,
-    profession: { [k in ProfessionEnum]: boolean }
+    profession: { [k in ProfessionEnum]: boolean },
+    rarity: boolean[]
 }
 
 export interface IUiPanelState {
@@ -13,6 +14,10 @@ export interface IUiPanelState {
 
 export interface IToggleProfessionAction {
     payload: ProfessionEnum
+}
+
+export interface IToggleRarityAction {
+    payload: number
 }
 
 export const uiPanelSlice = createSlice({
@@ -30,7 +35,8 @@ export const uiPanelSlice = createSlice({
                 [ProfessionEnum.Caster]: true,
                 [ProfessionEnum.Support]: true,
                 [ProfessionEnum.Special]: true,
-            }
+            },
+            rarity: [false, false, false, false, true, true]
         }
     },
     reducers: {
@@ -42,9 +48,14 @@ export const uiPanelSlice = createSlice({
         },
         toggleProfessionFilter: (state: IUiPanelState, action: IToggleProfessionAction) => {
             state.filter.profession[action.payload] = !state.filter.profession[action.payload];
+        },
+        toggleRarityFilter: (state: IUiPanelState, action: IToggleRarityAction) => {
+            if (action.payload < state.filter.rarity.length) {
+                state.filter.rarity[action.payload] = !state.filter.rarity[action.payload];
+            }
         }
     }
 });
 
-export const { toggleMaleFilter, toggleFemaleFilter, toggleProfessionFilter } = uiPanelSlice.actions;
+export const { toggleMaleFilter, toggleFemaleFilter, toggleProfessionFilter, toggleRarityFilter } = uiPanelSlice.actions;
 export default uiPanelSlice.reducer

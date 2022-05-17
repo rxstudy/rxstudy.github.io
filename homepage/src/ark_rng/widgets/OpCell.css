@@ -63,6 +63,16 @@
     z-index: 10;
 }
 
+.OpCell-blank {
+    line-height: 34px;
+    height: 34px;
+    color: #fffffffa;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+    width: 100%;
+}
+
 .OpCell-stars-top {
     position: relative;
     display: flex;

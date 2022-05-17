@@ -1,0 +1,33 @@
+.OpCountEdit-top {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 10%;
+    max-width: 80px;
+    margin-right: 8px;
+}
+
+.OpCountEdit-top>div {
+    width: 100%;
+    text-align: center;
+}
+
+.OpCountEdit-icon {
+    line-height: 32px;
+    font-size: 32px;
+}
+
+.OpCountEdit-num {
+    line-height: 32px;
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.OpCountEdit-down,
+.OpCountEdit-up {
+    width: 100%;
+    font-size: 20px;
+    line-height: 20px;
+}

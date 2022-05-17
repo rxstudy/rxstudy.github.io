@@ -1,22 +1,28 @@
+.OpGenPanel-top>.vertical-wrap {
+    justify-content: space-between;
+}
+
 .OpGenPanel-top .checkbox {
     margin: 2px 4px;
 }
 
 .OpGenPanel-profession-top {
     display: flex;
+    margin-bottom: 6px;
 }
 
 .OpGenPanel-profession-icon {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
     position: relative;
     background-size: cover;
-    margin: 1px;
+    filter: brightness(0.5);
 }
 
 .OpGenPanel-profession-icon.checked {
-    border: 1px solid rgb(28, 133, 231);
-    margin: 0;
+    filter: brightness(1.5);
+    background-blend-mode: multiply;
+    background-color: rgb(255 245 61);
 }
 
 .OpGenPanel-profession-caster {
@@ -49,4 +55,57 @@
 
 .OpGenPanel-profession-vanguard {
     background-image: url("../assets/ui/icon_profession_vanguard_large.png");
+}
+
+
+.OpGenPanel-gender-filter {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 12px;
+}
+
+.OpGenPanel-checkbox-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 36px;
+    line-height: 36px;
+    user-select: none;
+}
+
+.OpGenPanel-star-checkbox {
+    position: relative;
+    display: flex;
+    width: 100%;
+    font-size: 18px;
+    filter: brightness(0.5);
+}
+
+.OpGenPanel-star-checkbox.checked {
+    filter: brightness(1.5);
+}
+
+.OpGenPanel-star-checkbox.checked>.OpGenPanel-star-ico {
+    color: yellow;
+}
+
+.OpGenPanel-action-gen,
+.OpGenPanel-action-clear {
+    margin-right: 8px;
+    padding: 2px 8px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    font-size: 16px;
+    height: 100%;
+}
+
+
+.OpGenPanel-action-gen {
+    background-color: #01a5dc;
+}
+
+
+.OpGenPanel-action-clear {
+    background-color: #a53100;
 }
