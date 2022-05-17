@@ -42,18 +42,19 @@ function filterOps(availableOpIds: string[], filter: Filter, charMap: ICharacter
         return !rejectRarity.has(charMap[cid].rarity);
     })
 
+    console.log("Log[INFO]: Found " + filteredIds.length + " Ops matching criterias")
     return filteredIds;
 }
 
 
 function generateOps(charIds: string[], opsSampleCount: number): string[] {
     console.log("Log[INFO]: Generate samples " + opsSampleCount);
-    const samples: Set<string> = new Set([])
-    for (let i = 0; i < Math.min(charIds.length, opsSampleCount); i++) {
-        let pos = Math.floor(Math.random() * charIds.length);
-        samples.add(charIds.splice(pos, 1)[0]);
-    }
-    return Array.from(samples)
+
+    const samples = _.take(_.shuffle(charIds), Math.min(charIds.length, opsSampleCount))
+
+    console.log("Log[INFO]: Generate cids: " + samples.length)
+
+    return samples
 }
 
 type ProfessionFilterCheckBoxProps = {
