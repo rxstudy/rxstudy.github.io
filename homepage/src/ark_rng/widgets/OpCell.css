@@ -93,6 +93,7 @@
     background-color: rgba(0, 0, 0, 0.6);
     flex-wrap: nowrap;
     justify-content: space-between;
+    align-items: center;
     position: relative;
     z-index: 10;
     width: 100%;
@@ -131,4 +132,25 @@
 
 .OpCell-grad-6 {
     background: linear-gradient(15deg, rgba(0, 0, 0, 1) 0%, rgba(54, 53, 26, 1) 20%, rgba(205, 116, 32, 1) 45%, rgba(205, 180, 12, 1) 60%, rgba(255, 255, 255, 0) 100%);
+}
+
+@media (orientation: portrait) and (max-width: 480px) {
+    .OpCell-profession {
+        height: 20px;
+        width: 20px;
+    }
+
+    .OpCell-top {
+        position: relative;
+        width: 20%;
+        max-width: 140px;
+        min-width: 80px;
+        z-index: 5;
+        user-select: none;
+    }
+
+    .OpCell-star {
+        width: 8px;
+        height: 8px;
+    }
 }

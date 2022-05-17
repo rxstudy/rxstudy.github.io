@@ -109,3 +109,13 @@
 .OpGenPanel-action-clear {
     background-color: #a53100;
 }
+
+@media (orientation: portrait) and (max-width: 480px) {
+    .OpGenPanel-profession-icon {
+        width: 32px;
+        height: 32px;
+        position: relative;
+        background-size: cover;
+        filter: brightness(0.5);
+    }
+}

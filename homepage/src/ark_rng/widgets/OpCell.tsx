@@ -4,6 +4,7 @@ import { ICharacter } from "../reducers/CharDBSlice"
 import "./OpCell.css"
 import { ProfessionEnum, Vector2 } from '../reducers/GlobalTypes';
 import TWEEN, { Tween } from '@tweenjs/tween.js'
+import { timeStamp } from "console";
 
 
 type ProfessionIconProps = {
@@ -37,36 +38,35 @@ type OpCellProps = {
 
 type OpCellState = {
     mouseDown: boolean,
-    mousePrevX: number | null,
-    mousePrevY: number | null,
-    speedX: number,
-    speedY: number,
-    dx: number,
-    dy: number,
     displacement: Vector2,
     mouseDownOffset: Vector2,
     cellTopRef: React.RefObject<HTMLDivElement>,
     animationRef: number,
     tweenRef: Tween<Vector2> | null,
     opacity: number,
+    mousePosPrev: Vector2,
+    mouseVelocity: Vector2,
+    mouseVelocityPrev: Vector2,
+    acceleration: Vector2,
+    timestampPrev: number,
 }
 
-const MAX_DIST = 120;
+const MAX_SPEED = 3000;
+const MAX_DIST = 400;
 export class OpCell extends Component<OpCellProps, OpCellState> {
     state: OpCellState = {
         mouseDown: false,
-        mousePrevX: null,
-        mousePrevY: null,
-        speedX: 0,
-        speedY: 0,
-        dx: 0,
-        dy: 0,
         mouseDownOffset: { x: 0, y: 0 },
         displacement: { x: 0, y: 0 },
         cellTopRef: React.createRef(),
         animationRef: 0,
         tweenRef: null,
-        opacity: 1
+        opacity: 1,
+        mousePosPrev: { x: 0, y: 0 },
+        mouseVelocity: { x: 0, y: 0 },
+        mouseVelocityPrev: { x: 0, y: 0 },
+        acceleration: { x: 0, y: 0 },
+        timestampPrev: 0,
     };
     onMouseDown(e: React.MouseEvent) { this.onDown({ x: e.clientX, y: e.clientY }) }
     onTouchStart(e: React.TouchEvent) { this.onDown({ x: e.touches[0].clientX, y: e.touches[0].clientY }) }
@@ -78,6 +78,7 @@ export class OpCell extends Component<OpCellProps, OpCellState> {
         const el = this.state.cellTopRef.current;
         if (el == null || el.offsetLeft == undefined || el.offsetTop == undefined) return;
         this.state.mouseDown = true;
+        this.updateMousePrevPosition(mousePos);
         // When cell is away and in animation, we need to calculate vectors in different way 
         // offsetLeft/Top are the value before the cell moves, we need to calculate new offset which 
         // is the expression below.
@@ -99,6 +100,8 @@ export class OpCell extends Component<OpCellProps, OpCellState> {
         this.stopAnimation();
         this.state.displacement.x = mousePos.x - el.offsetLeft - this.state.mouseDownOffset.x;
         this.state.displacement.y = mousePos.y - el.offsetTop - this.state.mouseDownOffset.y;
+        this.recordVelocity(mousePos);
+        this.maybeRemoveItem(this.state.mouseVelocity);
         this.displaceCell(this.state.displacement);
         this.updateOpacity(this.state.displacement);
     }
@@ -131,14 +134,32 @@ export class OpCell extends Component<OpCellProps, OpCellState> {
             })
             .start();
     }
-    updateOpacity(disp: Vector2) {
-        let opacity = Math.max(0, 1 - Math.sqrt(disp.x * disp.x + disp.y * disp.y) / MAX_DIST);
+    updateMousePrevPosition(mousePos: Vector2) {
+        this.state.mousePosPrev.x = mousePos.x;
+        this.state.mousePosPrev.y = mousePos.y;
+    }
+    recordVelocity(mousePos: Vector2) {
+        // Record velocity
+        let dt = Math.max(0.001, (Date.now() - this.state.timestampPrev) / 1000);
+        this.state.mouseVelocityPrev.x = this.state.mouseVelocity.x;
+        this.state.mouseVelocityPrev.y = this.state.mouseVelocity.y;
+        this.state.mouseVelocity.x = (mousePos.x - this.state.mousePosPrev.x) / dt;
+        this.state.mouseVelocity.y = (mousePos.y - this.state.mousePosPrev.y) / dt;
+        this.state.acceleration.x = this.state.mouseVelocity.x - this.state.mouseVelocityPrev.x
+        this.state.acceleration.y = this.state.mouseVelocity.y - this.state.mouseVelocityPrev.y
+        this.state.timestampPrev = Date.now();
+        this.updateMousePrevPosition(mousePos);
+    }
+    maybeRemoveItem(velocity: Vector2) {
+        let v = Math.sqrt(velocity.y * velocity.y +
+            velocity.x * velocity.x)
+        if (v > MAX_SPEED) this.props.removeCallback();
+    }
+    updateOpacity(displacement: Vector2) {
+        let dist = Math.sqrt(displacement.x * displacement.x + displacement.y * displacement.y);
+        let opacity = Math.max(0, 1 - dist / MAX_DIST);
         const el = this.state.cellTopRef.current;
         el?.style.setProperty("opacity", opacity.toString());
-        if (opacity < 0.05) {
-            this.state.mouseDown = false;
-            this.props.removeCallback();
-        }
     }
     displaceCell(ds: Vector2) {
         const el = this.state.cellTopRef.current;
