@@ -8,7 +8,7 @@ import "./App.css";
 
 function ArkRngApp() {
     return <Provider store={store}>
-        <div>
+        <div className="App">
             <DataLoader />
             <ToolBox />
             <TeamView />

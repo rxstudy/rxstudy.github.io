@@ -1,9 +1,10 @@
 import React from "react";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { IAppState } from './reducers/State';
 import { OpCell, PlaceHolderCell } from "./widgets/OpCell";
 import "./TeamView.css"
 import _ from "lodash";
+import { clearOpsFromTeam } from "./reducers/OpDeck";
 
 type Props = {
 
@@ -17,12 +18,12 @@ function OpCells() {
     const allowedOpCount = useSelector((state: IAppState) => state.op_deck.allowed_op_count);
     const charMap = useSelector((state: IAppState) => state.char_db.map);
     const charInUse = useSelector((state: IAppState) => state.op_deck.in_use_op_ids);
-
+    const dispatch = useDispatch();
     const teamCell: React.ReactNode[] = [];
     _.sortBy(charInUse, (cid) => {
         return charMap[cid].profession
     }).forEach(charId => {
-        teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]} />);
+        teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]} removeCallback={() => dispatch(clearOpsFromTeam([charId]))} />);
     })
     console.log(`Log[INFO]: In use op count: ${charInUse.length}, Allowed op count: ${allowedOpCount}`)
     for (let i = charInUse.length; i < allowedOpCount; i++) {

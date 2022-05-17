@@ -1,4 +1,6 @@
-.TeamView-top {}
+.TeamView-top {
+    text-align: center;
+}
 
 .TeamView-cells {
     display: flex;
@@ -10,4 +12,10 @@
 
 .TeamView-cells>div {
     margin: 2px 5px
+}
+
+@media all and (orientation:portrait) {
+    .TeamView-cells {
+        justify-content: space-around;
+    }
 }

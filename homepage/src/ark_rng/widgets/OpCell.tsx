@@ -1,12 +1,10 @@
+import React, { Component } from "react"
 import { PROFESSION_TO_ICON_NAME } from "../Const"
 import { ICharacter } from "../reducers/CharDBSlice"
 import "./OpCell.css"
-import { ProfessionEnum } from '../reducers/GlobalTypes';
+import { ProfessionEnum, Vector2 } from '../reducers/GlobalTypes';
+import TWEEN, { Tween } from '@tweenjs/tween.js'
 
-type OpCellProps = {
-    opId: string,
-    opDetail: ICharacter
-}
 
 type ProfessionIconProps = {
     profession: ProfessionEnum,
@@ -31,21 +29,159 @@ export function StarsIcon(props: StarsIconProps) {
     </div>
 }
 
-export function OpCell(props: OpCellProps) {
-    return <div className="OpCell-top">
-        <div className={`OpCell-grad OpCell-grad-${props.opDetail.rarity + 1}`}></div>
-        <div className="OpCell-avatar" style={{
-            "backgroundImage": `url(https://aceship.github.io/AN-EN-Tags/img/avatars/${props.opId}.png)`
-        }}></div>
-        <div className="OpCell-detail-top">
-            <ProfessionIcon profession={props.opDetail.profession} />
-            <div style={{ marginRight: 2 }}>
-                <StarsIcon rarity={props.opDetail.rarity} />
-                <div className="OpCell-name">{props.opDetail.name}</div>
+type OpCellProps = {
+    opId: string,
+    opDetail: ICharacter,
+    removeCallback: Function
+}
+
+type OpCellState = {
+    mouseDown: boolean,
+    mousePrevX: number | null,
+    mousePrevY: number | null,
+    speedX: number,
+    speedY: number,
+    dx: number,
+    dy: number,
+    displacement: Vector2,
+    mouseDownOffset: Vector2,
+    cellTopRef: React.RefObject<HTMLDivElement>,
+    animationRef: number,
+    tweenRef: Tween<Vector2> | null,
+    opacity: number,
+}
+
+const MAX_DIST = 120;
+export class OpCell extends Component<OpCellProps, OpCellState> {
+    state: OpCellState = {
+        mouseDown: false,
+        mousePrevX: null,
+        mousePrevY: null,
+        speedX: 0,
+        speedY: 0,
+        dx: 0,
+        dy: 0,
+        mouseDownOffset: { x: 0, y: 0 },
+        displacement: { x: 0, y: 0 },
+        cellTopRef: React.createRef(),
+        animationRef: 0,
+        tweenRef: null,
+        opacity: 1
+    };
+    onMouseDown(e: React.MouseEvent) { this.onDown({ x: e.clientX, y: e.clientY }) }
+    onTouchStart(e: React.TouchEvent) { this.onDown({ x: e.touches[0].clientX, y: e.touches[0].clientY }) }
+    onMouseMove(e: React.MouseEvent) { this.onMove({ x: e.clientX, y: e.clientY }); };
+    onTouchMove(e: React.TouchEvent) { this.onMove({ x: e.touches[0].clientX, y: e.touches[0].clientY }) }
+    onTouchEnd() { this.onUp(); }
+    onMouseUp() { this.onUp(); }
+    onDown(mousePos: Vector2) {
+        const el = this.state.cellTopRef.current;
+        if (el == null || el.offsetLeft == undefined || el.offsetTop == undefined) return;
+        this.state.mouseDown = true;
+        // When cell is away and in animation, we need to calculate vectors in different way 
+        // offsetLeft/Top are the value before the cell moves, we need to calculate new offset which 
+        // is the expression below.
+        if (this.state.tweenRef) {
+            this.stopAnimation();
+            this.state.mouseDownOffset.x = mousePos.x - this.state.displacement.x + - el.offsetLeft;
+            this.state.mouseDownOffset.y = mousePos.y - this.state.displacement.y - el.offsetTop;
+            return
+        }
+        // Get pinched pos in the cell.
+        this.state.mouseDownOffset.x = mousePos.x - el.offsetLeft;
+        this.state.mouseDownOffset.y = mousePos.y - el.offsetTop;
+        el.style.setProperty("z-index", "15");
+    }
+    onMove(mousePos: Vector2) {
+        const el = this.state.cellTopRef.current;
+        if (el == null || el.offsetLeft == undefined || el.offsetTop == undefined) return;
+        if (!this.state.mouseDown) return;
+        this.stopAnimation();
+        this.state.displacement.x = mousePos.x - el.offsetLeft - this.state.mouseDownOffset.x;
+        this.state.displacement.y = mousePos.y - el.offsetTop - this.state.mouseDownOffset.y;
+        this.displaceCell(this.state.displacement);
+        this.updateOpacity(this.state.displacement);
+    }
+    onUp() {
+        if (!this.state.mouseDown) return
+        this.state.mouseDown = false;
+        this.state.animationRef = requestAnimationFrame(this.animate.bind(this));
+        this.state.tweenRef = new TWEEN.Tween(this.state.displacement)
+            .to({ x: 0, y: 0 }, 500)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(() => {
+                this.displaceCell(this.state.displacement)
+                this.updateOpacity(this.state.displacement)
+            })
+            .onStop(() => {
+                cancelAnimationFrame(this.state.animationRef)
+                if (this.state.tweenRef) {
+                    TWEEN.remove(this.state.tweenRef);
+                    this.state.tweenRef = null;
+                }
+            })
+            .onComplete(() => {
+                cancelAnimationFrame(this.state.animationRef)
+                if (this.state.tweenRef) {
+                    TWEEN.remove(this.state.tweenRef);
+                    this.state.tweenRef = null;
+                }
+                const el = this.state.cellTopRef.current;
+                el?.style.setProperty("z-index", "0");
+            })
+            .start();
+    }
+    updateOpacity(disp: Vector2) {
+        let opacity = Math.max(0, 1 - Math.sqrt(disp.x * disp.x + disp.y * disp.y) / MAX_DIST);
+        const el = this.state.cellTopRef.current;
+        el?.style.setProperty("opacity", opacity.toString());
+        if (opacity < 0.05) {
+            this.state.mouseDown = false;
+            this.props.removeCallback();
+        }
+    }
+    displaceCell(ds: Vector2) {
+        const el = this.state.cellTopRef.current;
+        if (el == null) return;
+
+        el.style["transform"] = `translate(${ds.x}px, ${ds.y}px)`;
+    }
+    stopAnimation() {
+        if (this.state.tweenRef) {
+            this.state.tweenRef.stop();
+            this.state.tweenRef = null;
+        }
+    }
+    animate(time: number) {
+        this.state.animationRef = requestAnimationFrame(this.animate.bind(this))
+        TWEEN.update(time)
+    }
+    render() {
+        const props: OpCellProps = this.props;
+        return <div className="OpCell-top"
+            onTouchStart={e => this.onTouchStart(e)}
+            onTouchMove={e => this.onTouchMove(e)}
+            onTouchEnd={() => this.onTouchEnd()}
+            onMouseDown={e => this.onMouseDown(e)}
+            onMouseUp={() => this.onMouseUp()}
+            onMouseMove={e => this.onMouseMove(e)}
+            onMouseLeave={() => this.onMouseUp()}
+            ref={this.state.cellTopRef} >
+            <div className={`OpCell-grad OpCell-grad-${props.opDetail.rarity + 1}`}></div>
+            <div className="OpCell-avatar" style={{
+                "backgroundImage": `url(https://aceship.github.io/AN-EN-Tags/img/avatars/${props.opId}.png)`
+            }}></div>
+            <div className="OpCell-detail-top">
+                <ProfessionIcon profession={props.opDetail.profession} />
+                <div className="OpCell-detail-name-wrap">
+                    <StarsIcon rarity={props.opDetail.rarity} />
+                    <div className="OpCell-name">{props.opDetail.name}</div>
+                </div>
             </div>
         </div>
-    </div>
+    }
 }
+
 
 export function PlaceHolderCell() {
     return <div className="OpCell-top">

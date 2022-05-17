@@ -42,10 +42,11 @@
 
 .OpCell-top {
     position: relative;
-    width: 15%;
+    width: 22%;
     max-width: 140px;
-    min-width: 120px;
+    min-width: 102px;
     z-index: 5;
+    user-select: none;
 }
 
 .OpCell-profession {
@@ -81,8 +82,8 @@
 .OpCell-star {
     position: relative;
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background-size: contain;
     background-image: url("../assets/ui/star.png");
 }
@@ -94,8 +95,11 @@
     justify-content: space-between;
     position: relative;
     z-index: 10;
+    width: 100%;
     padding: 1px 0px;
 }
+
+.OpCell-detail-name-wrap {}
 
 .OpCell-grad {
     width: 100%;

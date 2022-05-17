@@ -9,3 +9,8 @@ export enum ProfessionEnum {
     Support = "SUPPORT",
     Special = "SPECIAL",
 }
+
+export interface Vector2 {
+    x: number,
+    y: number
+}
