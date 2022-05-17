@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from 'react-redux'
-import { ICharacter } from "./reducers/CharDBSlice";
 import { IAppState } from './reducers/State';
 import { OpCell, PlaceHolderCell } from "./widgets/OpCell";
 import "./TeamView.css"

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { OP_SLOT_COUNT_MAX, OP_SLOT_COUNT_MIN } from '../Const';

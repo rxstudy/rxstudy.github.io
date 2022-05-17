@@ -52,7 +52,7 @@ export function PlaceHolderCell() {
         <div className={`OpCell-grad OpCell-grad-1`}></div>
         <div className="OpCell-avatar"></div>
         <div className="OpCell-detail-top">
-            <div className="OpCell-blank">+</div>
+            <div className="OpCell-blank">-</div>
         </div>
     </div>
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import './App.css';
 import Paths from './Paths';
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV === "production") {
   console.log = () => { }
 }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { OnComponentDidMount } from '../../common/react_helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { IAppState } from '../reducers/State';

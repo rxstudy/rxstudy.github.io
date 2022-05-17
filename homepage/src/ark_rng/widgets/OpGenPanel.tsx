@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Dispatch } from 'redux';
-import { incrementOpCount, addOpsToTeam, clearOpsFromTeam } from '../reducers/OpDeck';
+import { addOpsToTeam, clearOpsFromTeam } from '../reducers/OpDeck';
 import { IAppState } from '../reducers/State';
 import { toggleFemaleFilter, toggleMaleFilter, Filter, toggleProfessionFilter, toggleRarityFilter } from '../reducers/UiPanelSlice';
-import { ICharacterMap, ICharacter } from '../reducers/CharDBSlice';
-import { createImportSpecifier, FileWatcherEventKind } from 'typescript';
+import { ICharacterMap } from '../reducers/CharDBSlice';
 import _ from 'lodash';
 import "./OpGenPanel.css";
 import CheckBox from '../ui/CheckBox';
 import { ProfessionEnum } from '../reducers/GlobalTypes';
-import { MdOutlineStarPurple500 } from "react-icons/md";
+import { MdOutlineStarPurple500, MdFemale, MdMale } from "react-icons/md";
 import { ALL_PROFESSIONS, PROFESSION_TO_ICON_NAME } from '../Const';
 
 export interface IOpGenPanelProps {
@@ -109,8 +107,8 @@ export default function OpGenPanel(props: IOpGenPanelProps) {
         <div className="OpGenPanel-top horizontal-wrap">
             <div className="vertical-wrap">
                 <div className="OpGenPanel-gender-filter">
-                    <CheckBox onClick={() => dispatch(toggleFemaleFilter())} checked={filter.female}>女干员</CheckBox>
-                    <CheckBox onClick={() => dispatch(toggleMaleFilter())} checked={filter.male}>男干员</CheckBox>
+                    <CheckBox onClick={() => dispatch(toggleFemaleFilter())} checked={filter.female}><MdFemale /></CheckBox>
+                    <CheckBox onClick={() => dispatch(toggleMaleFilter())} checked={filter.male}><MdMale /></CheckBox>
                 </div>
                 <RarityFilterCheckBox />
                 <ProfessionFilterCheckBox checked={filter.profession} />
