@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import ArkRngApp from "./ark_rng/App";
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import Paths from './Paths';
 
 const root = ReactDOM.createRoot(
@@ -12,12 +12,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path={Paths.ARK_RNG_PATH} element={<ArkRngApp />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode >
 );
 

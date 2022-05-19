@@ -1,21 +1,17 @@
 .TeamView-top {
     text-align: center;
+    position: relative;
+    width: 100%;
 }
 
 .TeamView-cells {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
 }
 
 .TeamView-cells>div {
     margin: 2px 5px
-}
-
-@media all and (orientation:portrait) {
-    .TeamView-cells {
-        justify-content: space-around;
-    }
 }

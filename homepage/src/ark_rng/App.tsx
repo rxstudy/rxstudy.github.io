@@ -3,13 +3,13 @@ import { Provider } from 'react-redux'
 import TeamView from "./TeamView";
 import ToolBox from './ToolBox';
 import { store } from "./reducers/State";
-import DataLoader from './widgets/DataLoader';
+import AppInitializer from './widgets/AppInitializer';
 import "./App.css";
 
 function ArkRngApp() {
     return <Provider store={store}>
         <div className="App">
-            <DataLoader />
+            <AppInitializer />
             <ToolBox />
             <TeamView />
         </div>

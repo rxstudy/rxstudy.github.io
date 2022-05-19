@@ -5,6 +5,7 @@ import "./OpCell.css"
 import { ProfessionEnum, Vector2 } from '../reducers/GlobalTypes';
 import TWEEN, { Tween } from '@tweenjs/tween.js'
 import { timeStamp } from "console";
+import { getAvatarUrl } from "../Utils";
 
 
 type ProfessionIconProps = {
@@ -190,7 +191,7 @@ export class OpCell extends Component<OpCellProps, OpCellState> {
             ref={this.state.cellTopRef} >
             <div className={`OpCell-grad OpCell-grad-${props.opDetail.rarity + 1}`}></div>
             <div className="OpCell-avatar" style={{
-                "backgroundImage": `url(https://aceship.github.io/AN-EN-Tags/img/avatars/${props.opId}.png)`
+                "backgroundImage": `url(${getAvatarUrl(props.opId)})`
             }}></div>
             <div className="OpCell-detail-top">
                 <ProfessionIcon profession={props.opDetail.profession} />
