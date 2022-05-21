@@ -21,7 +21,7 @@
 }
 
 .BannedDeck-container .OpCell-top {
-    width: 8%;
+    width: 6%;
     min-width: 80px;
     filter: grayscale(0.9);
 }
