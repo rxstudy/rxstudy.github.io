@@ -3,10 +3,11 @@
     width: 100%;
     position: relative;
     flex-flow: column;
+    margin-bottom: 8px;
 }
 
 .BannedDeck-title {
-    color: #a1a1a1;
+    color: #e3e3e3;
     font-weight: bold;
     font-size: 18px;
     text-align: left;
