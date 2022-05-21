@@ -165,4 +165,10 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+
+    .OpCell-blank {
+        line-height: 23px;
+        height: 23px;
+        font-size: 20px;
+    }
 }
