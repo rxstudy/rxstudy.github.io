@@ -77,6 +77,7 @@
 .OpCell-stars-top {
     position: relative;
     display: flex;
+    flex-direction: row-reverse;
 }
 
 .OpCell-star {
@@ -152,5 +153,16 @@
     .OpCell-star {
         width: 8px;
         height: 8px;
+    }
+
+    .OpCell-detail-name-wrap {
+        max-width: 70%;
+    }
+
+    .OpCell-name {
+        font-size: 70%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }

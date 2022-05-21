@@ -91,7 +91,7 @@
 
 .OpGenPanel-action-gen,
 .OpGenPanel-action-clear {
-    margin-right: 8px;
+    margin: 4px 8px;
     padding: 2px 8px;
     color: white;
     font-weight: bold;
