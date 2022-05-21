@@ -4,14 +4,8 @@ import { IAppState } from './reducers/State';
 import { OpCell, PlaceHolderCell } from "./widgets/OpCell";
 import "./TeamView.css"
 import _ from "lodash";
-import { clearOpsFromTeam } from "./reducers/OpDeck";
-
-type Props = {
-
-}
-type State = {
-
-}
+import { clearOpsFromTeam, excludeOpsFromTeam } from "./reducers/OpDeck";
+import { clearDraggedCard, setDraggedCard } from "./reducers/UiPanelSlice";
 
 
 function OpCells() {
@@ -23,7 +17,12 @@ function OpCells() {
     _.sortBy(charInUse, (cid) => {
         return charMap[cid].profession
     }).forEach(charId => {
-        teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]} removeCallback={() => dispatch(clearOpsFromTeam([charId]))} />);
+        teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]}
+            removeCallback={() => dispatch(clearOpsFromTeam([charId]))}
+            onDragCallback={() => dispatch(setDraggedCard(charId))}
+            onReleaseCallback={() => dispatch(clearDraggedCard())}
+            banCallback={() => dispatch(excludeOpsFromTeam([charId]))}
+        />);
     })
     console.log(`Log[INFO]: In use op count: ${charInUse.length}, Allowed op count: ${allowedOpCount}`)
     for (let i = charInUse.length; i < allowedOpCount; i++) {
@@ -33,13 +32,11 @@ function OpCells() {
     return <div className="TeamView-cells">{teamCell}</div>
 }
 
-class TeamView extends React.Component<Props, State> {
-    renderOpCells() {
-        return <OpCells />
-    }
-    render() {
-        return <div className="TeamView-top">{this.renderOpCells()}</div>
-    }
+function TeamView() {
+    return <div className="TeamView-top">
+        <div className="TeamView-title">随机队伍</div>
+        <div><OpCells /></div>
+    </div >
 }
 
 export default TeamView

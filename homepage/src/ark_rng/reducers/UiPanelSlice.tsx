@@ -9,7 +9,8 @@ export interface Filter {
 }
 
 export interface IUiPanelState {
-    filter: Filter
+    filter: Filter,
+    draggedCard: string | null
 }
 
 export interface IToggleProfessionAction {
@@ -18,6 +19,10 @@ export interface IToggleProfessionAction {
 
 export interface IToggleRarityAction {
     payload: number
+}
+
+export interface ISetDraggedCardAction {
+    payload: string
 }
 
 export const uiPanelSlice = createSlice({
@@ -37,7 +42,8 @@ export const uiPanelSlice = createSlice({
                 [ProfessionEnum.Special]: true,
             },
             rarity: [false, false, false, false, true, true]
-        }
+        },
+        draggedCard: null,
     },
     reducers: {
         toggleMaleFilter: (state: IUiPanelState) => {
@@ -53,9 +59,15 @@ export const uiPanelSlice = createSlice({
             if (action.payload < state.filter.rarity.length) {
                 state.filter.rarity[action.payload] = !state.filter.rarity[action.payload];
             }
-        }
+        },
+        setDraggedCard: (state: IUiPanelState, action: ISetDraggedCardAction) => {
+            state.draggedCard = action.payload;
+        },
+        clearDraggedCard: (state: IUiPanelState) => {
+            state.draggedCard = null;
+        },
     }
 });
 
-export const { toggleMaleFilter, toggleFemaleFilter, toggleProfessionFilter, toggleRarityFilter } = uiPanelSlice.actions;
+export const { toggleMaleFilter, toggleFemaleFilter, toggleProfessionFilter, toggleRarityFilter, setDraggedCard, clearDraggedCard } = uiPanelSlice.actions;
 export default uiPanelSlice.reducer

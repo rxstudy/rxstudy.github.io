@@ -9,6 +9,10 @@ export interface IOpDeckState {
     allowed_op_count: number
 }
 
+export interface IIncludeOpAction {
+    payload: string[],
+}
+
 export interface IExcludeOpAction {
     payload: string[],
 }
@@ -45,6 +49,10 @@ export const opDeckSlice = createSlice({
             state.available_op_ids = _.difference(state.available_op_ids, action.payload)
             state.excluded_op_ids = _.union(state.excluded_op_ids, action.payload)
         },
+        includeOpsFromTeam: (state: IOpDeckState, action: IIncludeOpAction) => {
+            state.excluded_op_ids = _.difference(state.excluded_op_ids, action.payload)
+            state.available_op_ids = _.union(state.available_op_ids, action.payload)
+        },
         addOpsToTeam: (state: IOpDeckState, action: IUseOpAction) => {
             state.available_op_ids = _.difference(state.available_op_ids, action.payload)
             state.in_use_op_ids = _.union(state.in_use_op_ids, action.payload)
@@ -65,5 +73,5 @@ export const opDeckSlice = createSlice({
     }
 });
 
-export const { initDeckState, excludeOpsFromTeam, addOpsToTeam, clearOpsFromTeam, incrementOpCount, decrementOpCount } = opDeckSlice.actions;
+export const { initDeckState, excludeOpsFromTeam, addOpsToTeam, clearOpsFromTeam, incrementOpCount, decrementOpCount, includeOpsFromTeam } = opDeckSlice.actions;
 export default opDeckSlice.reducer
