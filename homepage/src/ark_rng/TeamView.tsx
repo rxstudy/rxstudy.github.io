@@ -6,7 +6,18 @@ import "./TeamView.css"
 import _ from "lodash";
 import { clearOpsFromTeam, excludeOpsFromTeam } from "./reducers/OpDeck";
 import { clearDraggedCard, setDraggedCard } from "./reducers/UiPanelSlice";
+import { ProfessionEnum } from './reducers/GlobalTypes';
 
+const OP_CELL_SORT_ORD = {
+    [ProfessionEnum.Pioneer]: 0,
+    [ProfessionEnum.Warrior]: 1,
+    [ProfessionEnum.Tank]: 2,
+    [ProfessionEnum.Sniper]: 3,
+    [ProfessionEnum.Caster]: 4,
+    [ProfessionEnum.Medic]: 5,
+    [ProfessionEnum.Support]: 6,
+    [ProfessionEnum.Special]: 7,
+}
 
 function OpCells() {
     const allowedOpCount = useSelector((state: IAppState) => state.op_deck.allowed_op_count);
@@ -15,7 +26,7 @@ function OpCells() {
     const dispatch = useDispatch();
     const teamCell: React.ReactNode[] = [];
     _.sortBy(charInUse, (cid) => {
-        return charMap[cid].profession
+        return OP_CELL_SORT_ORD[charMap[cid].profession]
     }).forEach(charId => {
         teamCell.push(<OpCell key={charId} opId={charId} opDetail={charMap[charId]}
             removeCallback={() => dispatch(clearOpsFromTeam([charId]))}
