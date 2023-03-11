@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Home from './home/App';
 import ArkRngApp from "./ark_rng/App";
+import ARK_RNG_PATH from "./ark_rng/Path";
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
-import Paths from './Paths';
+import { Routes, Route, HashRouter } from "react-router-dom";
+
+if (process.env.NODE_ENV === "production") {
+  console.log = () => { }
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <HashRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path={Paths.ARK_RNG_PATH} element={<ArkRngApp />} />
+        <Route path="/" element={<Home />} />
+        <Route path={`/demo/${ARK_RNG_PATH}`} element={<ArkRngApp />} />
       </Routes>
     </HashRouter>
   </React.StrictMode >
