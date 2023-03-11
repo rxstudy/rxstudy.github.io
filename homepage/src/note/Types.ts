@@ -1,9 +1,11 @@
-import { ReactNode } from 'react';
+
+type JsxElementFunction = () => JSX.Element
 
 interface ArticleInfo {
-    title: string,
-    list_key: string,
-    EL: Function
+  title: string
+  subject: string
+  key: string
+  EL: JsxElementFunction
 }
 
 export type { ArticleInfo }

@@ -12,13 +12,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: "./tsconfig.json"
+    project: './tsconfig.json'
   },
   plugins: [
     'react',
     'unused-imports'
   ],
   rules: {
-    "unused-imports/no-unused-imports-ts": "warn"
+    '@typescript-eslint/no-empty-interface': 'off'
   }
 }

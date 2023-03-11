@@ -1,26 +1,26 @@
-import React from "react";
-import OpCountEdit from "./widgets/OpCountEdit";
-import OpGenPanel from "./widgets/OpGenPanel";
-import "./ToolBox.css";
-import PanelViewsMenu from "./widgets/PanelViewsMenu";
+import React from 'react'
+import OpCountEdit from './widgets/OpCountEdit'
+import OpGenPanel from './widgets/OpGenPanel'
+import './ToolBox.css'
+import PanelViewsMenu from './widgets/PanelViewsMenu'
 
-type Props = {
+interface Props {
 
 }
 
-type State = {
+interface State {
 
 }
 
 class ToolBox extends React.Component<Props, State> {
-    render() {
-        return <div className="ToolBox-top">
+  render (): JSX.Element {
+    return <div className="ToolBox-top">
             <OpCountEdit />
             <OpGenPanel />
             <PanelViewsMenu />
             <div className="ToolBox-grad"></div>
         </div>
-    }
+  }
 }
 
 export default ToolBox

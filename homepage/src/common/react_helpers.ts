@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
-export const OnComponentDidMount = (fun: React.EffectCallback) => useEffect(fun, []);
+export const OnComponentDidMount = (fun: React.EffectCallback): void => { useEffect(fun, []) }
 
-export const setClearAndSetBodyClass = (className: string) => {
-    document.body.className = className;
+export const setClearAndSetBodyClass = (className: string): void => {
+  document.body.className = className
 }

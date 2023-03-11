@@ -1,1 +1,1 @@
-export default "ark_rng";
+export default 'ark_rng'

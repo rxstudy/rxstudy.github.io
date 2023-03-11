@@ -1,30 +1,29 @@
-import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { Breadcrumb, Layout } from 'antd';
-import SideMenu from "./SideMenu";
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import { Layout } from 'antd'
+import SideMenu from './SideMenu'
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer, Sider } = Layout
 
-
-function Home() {
-    return <Layout style={{ minHeight: '100vh', }}>
+function Home (): JSX.Element {
+  return <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible >
             <div style={{
-                height: 32,
-                margin: 16,
-                background: 'rgba(255, 255, 255, 0.2)',
+              height: 32,
+              margin: 16,
+              background: 'rgba(255, 255, 255, 0.2)'
             }} />
             <SideMenu />
         </Sider>
         <Layout className="site-layout">
-            <Header style={{ padding: 0, }} />
-            <Content style={{ margin: '0 16px', }}>
+            <Header style={{ padding: 0 }} />
+            <Content style={{ margin: '0 16px' }}>
                 <Outlet />
             </Content>
-            <Footer style={{ textAlign: 'center', }}>
+            <Footer style={{ textAlign: 'center' }}>
             </Footer>
         </Layout>
     </Layout>
 }
 
-export default Home;
+export default Home

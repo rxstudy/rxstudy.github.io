@@ -4,14 +4,13 @@ interface PanelViewsMenuProps {
 
 }
 
-function PanelViewsMenu(props: PanelViewsMenuProps) {
-    return (
+function PanelViewsMenu (props: PanelViewsMenuProps): JSX.Element {
+  return (
         <div>
             {/* <div>Filter</div>
             <div>Removed</div> */}
         </div>
-    )
+  )
 }
-
 
 export default PanelViewsMenu

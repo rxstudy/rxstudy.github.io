@@ -1,18 +1,17 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import type { ArticleInfo } from '../Types'
 
-type Props = {}
-function MultiSampling({ }: Props): ReactNode {
-    return (
+function MultiSampling (): JSX.Element {
+  return (
         <div>content</div>
-    )
+  )
 }
 
 const INFO: ArticleInfo = {
-    title: "Multisampling (MSAA)",
-    list_key: "multisampling",
-    EL: MultiSampling
+  title: 'Multisampling (MSAA)',
+  key: 'multisampling',
+  subject: 'cg',
+  EL: MultiSampling
 }
 
 export default INFO
-
