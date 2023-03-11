@@ -5,6 +5,8 @@ import Home from './home/App';
 import ArkRngApp from "./ark_rng/App";
 import ARK_RNG_PATH from "./ark_rng/Path";
 import reportWebVitals from './reportWebVitals';
+import NoteIndex from "./note";
+import NotFound from './NotFound'
 import { Routes, Route, HashRouter } from "react-router-dom";
 
 if (process.env.NODE_ENV === "production") {
@@ -20,7 +22,13 @@ root.render(
     <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/note" element={<Home />}>
+          <Route path=":subject" element={<NoteIndex />} />
+          <Route path=":subject/:key" element={<NoteIndex />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
         <Route path={`/demo/${ARK_RNG_PATH}`} element={<ArkRngApp />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
   </React.StrictMode >

@@ -24,24 +24,24 @@ function getItem(
 
 const items: MenuProps['items'] = [
     getItem('主页', '', <HomeOutlined />),
-    getItem('学习笔记', 'sub1', <HighlightOutlined />, [
-        getItem('Statistics', 'g1'),
-        getItem('Graphics', 'g2'),
+    { type: 'divider' },
+    getItem('学习笔记', 'note', <HighlightOutlined />, [
+        getItem('Statistics', 'stat'),
+        getItem('Graphics', 'cg'),
+        getItem('Modeling', 'model'),
     ]),
-
     { type: 'divider' },
     getItem('工具', 'demo', <LinkOutlined />, [
         getItem('方舟随机编队器', 'ark_rng'),
-        getItem('Option 6', '6'),
     ]),
 
     { type: 'divider' },
 
-    getItem('学习资源', 'sub4', <SettingOutlined />, [
-        getItem('Applications', '9'),
-        getItem('Courses', '10'),
-        getItem('Papers', '11'),
-        getItem('Repos', '12'),
+    getItem('学习资源', 'resource', <SettingOutlined />, [
+        getItem('Applications', 'apps'),
+        getItem('Courses', 'courses'),
+        getItem('Papers', 'papers'),
+        getItem('Repos', 'repos'),
     ]),
 ];
 
@@ -50,7 +50,7 @@ const SideBar = memo((props) => {
     const navigate = useNavigate();
     return <Menu
         onClick={(e) => {
-            navigate(e.keyPath.reverse().join("/"));
+            navigate(`/${e.keyPath.reverse().join("/")}`);
         }}
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['']}
