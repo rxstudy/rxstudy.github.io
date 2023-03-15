@@ -33,7 +33,6 @@ function MultiSampling (): JSX.Element {
           <p>
             Then the result is stored in higher resolution framebuffer corresponding to each sample point as shown.
             The framebuffer will downscale to the 3x3 output size by taking the average of each 2x2 pixels.
-            Comparing it to the output with AA(antialiasing), we can see MSAA adds
           </p>
           {MSAAGraph()}
           <div>
@@ -263,7 +262,8 @@ const INFO: ArticleInfo = {
   title: 'Multisampling (MSAA)',
   key: 'multisampling',
   subject: 'cg',
-  EL: MultiSampling
+  EL: MultiSampling,
+  date: '2023/03/14'
 }
 
 export default INFO

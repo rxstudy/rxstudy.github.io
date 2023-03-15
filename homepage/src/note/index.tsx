@@ -26,13 +26,13 @@ function renderListing (subject: string): JSX.Element {
   if (listing.length === 0) {
     return <NotFound />
   }
-  const links: JSX.Element[] = _.sortBy(listing, (entry) => entry.title).map((entry) => {
-    return <Link key={`note-${subject}-${entry.key}`} to={`${entry.key}`}>{entry.title}</Link>
+  const links: JSX.Element[] = _.sortBy(listing, (entry) => entry.date).map((entry) => {
+    return <Link key={`note-${subject}-${entry.key}`} to={`${entry.key}`}>[{entry.date}] {entry.title}</Link>
   })
   return (
         <> {buildCrumb(subject, '')}
             <Divider orientation="left"></Divider>
-            <Col span={8} push={4}>
+            <Col span={23} push={1}>
                 <List
                     header={<h1>{subjectToNames[subject]}</h1>}
                     dataSource={links}

@@ -6,6 +6,7 @@ interface ArticleInfo {
   subject: string
   key: string
   EL: JsxElementFunction
+  date: string
 }
 
 export type { ArticleInfo }

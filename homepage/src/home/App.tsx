@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { Layout } from 'antd'
 import SideMenu from './SideMenu'
 
-const { Header, Content, Footer, Sider } = Layout
+const { Content, Footer, Sider } = Layout
 
 function Home (): JSX.Element {
   return <Layout style={{ minHeight: '100vh' }}>
@@ -16,7 +16,7 @@ function Home (): JSX.Element {
             <SideMenu />
         </Sider>
         <Layout className="site-layout">
-            <Header style={{ padding: 0 }} />
+            {/* <Header style={{ padding: 0 }} /> */}
             <Content style={{ margin: '0 16px' }}>
                 <Outlet />
             </Content>
