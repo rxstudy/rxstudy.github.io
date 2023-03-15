@@ -29,7 +29,6 @@ function renderListing (subject: string): JSX.Element {
   const links: JSX.Element[] = _.sortBy(listing, (entry) => entry.title).map((entry) => {
     return <Link key={`note-${subject}-${entry.key}`} to={`${entry.key}`}>{entry.title}</Link>
   })
-
   return (
         <> {buildCrumb(subject, '')}
             <Divider orientation="left"></Divider>
